@@ -23,15 +23,14 @@ const main = async (parameter) => {
     // fs.writeFileSync(fileNameHtml, result)
 
     const dom = new jsdom(result)
-    const document = dom.window.parent.document
+    const document = dom.window.document
     // const fileNameJsonDom = fileName + "jsdom" + html
     // fs.writeFileSync(fileNameJsonDom , document.body.innerHTML)
     
-    const any= document.getElementsByClassName("css-yr5ypo")
-    any.innerHtml
+
 
     const contulTau = document.querySelector("div[color='white'] a")
-    contulTau.getAttribute("href")
+    console.log( contulTau.getAttribute("href"))
 
 
     console.log("cockieJar.get:"+ cockieJar.get)
