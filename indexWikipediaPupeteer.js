@@ -30,11 +30,12 @@ const main =async () => {
   await page.waitForTimeout(2000);
 
   let searchText = await page.waitForXPath('//*[@id="searchInput"]');
-  // * before [] means any tipe of tag object
+  // * before [] means any type of tag object
   //@ is like contains property
 
   
   const [search] = await page.$x(`//*[@id="search-form"]/fieldset/button`);
+  //all elements with id search-form then go into fieldset then go into button
   if (search) {
     await search.click();
     search.getProperty
