@@ -51,6 +51,7 @@ anchor.click()
 setTimeout(
   ()=>setElementValueOnPage(domWindow,"div input[name='username']","value","brebene.leonard@yahoo.ro")
   , 5000);
+  setInterval
 
 const fileNameHtml = getPathWithDate()
 fs.writeFileSync(fileNameHtml, domWindow.document.body.innerHTML)

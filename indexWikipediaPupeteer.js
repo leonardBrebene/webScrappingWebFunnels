@@ -1,5 +1,11 @@
 import { CookieJar, JSDOM as jsdom } from "jsdom";
+import fs from "fs";
 import request from 'request-promise';
+import cheerio from 'cheerio'
+import getNextNavigationPage from "./getNextNavigationPage.js";
+import getLoadedPage from "./getLoadedPage.js";
+import getPathWithDate from "./getPathWithDate.js";
+import setElementValueOnPage from "./setElementValueOnPage.js";
 import  puppeteer from "puppeteer" ;
 
 
@@ -17,14 +23,15 @@ const main =async () => {
 
   const page = await browser.newPage();
 
-  await page.goto("https://www.olx.ro/", {
+  await page.goto("https://www.wikipedia.org/", {
     waitUntil: "networkidle2",
   });
 
   await page.waitForTimeout(2000);
 
   let searchText = await page.waitForXPath('//*[@id="searchInput"]');
-  console.log(searchText)
+  // * before [] means any tipe of tag object
+  //@ is like contains property
 
   
   const [search] = await page.$x(`//*[@id="search-form"]/fieldset/button`);
