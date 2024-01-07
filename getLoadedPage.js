@@ -9,3 +9,4 @@ const getLoadedPage = async (link) => {
     return window
 }
 export default getLoadedPage;
+

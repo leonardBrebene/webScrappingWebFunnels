@@ -19,23 +19,20 @@ const main =async () => {
 
   const page = await browser.newPage();
 
-  await page.goto("https://www.olx.ro/", {
+  await page.goto("https://www.facebook.com/", {
     waitUntil: "networkidle2",
   });
   await page.waitForTimeout(2000);
 
-  const [acceptButton] = await page.$x(`//*[@id="onetrust-accept-btn-handler"]`);
+  const [acceptButton] = await page.$x(`//*[@data-cookiebanner="accept_only_essential_button"]`);
   await acceptButton.click();
   
-  const [contultau] = await page.$x(`//*[@color='white']/a`);
-  await contultau.click();
-  await page.waitForTimeout(2000);
 
-  const [inputEmail] = await page.$x(`//*[@name="username"]`);
-  const [inputPassword] = await page.$x(`//*[@name="password"]`);
+  const [inputEmail] = await page.$x(`//*[@name="email"]`);
+  const [inputPassword] = await page.$x(`//*[@type="password"]`);
 
   await inputEmail.type("brebene.leonard@yahoo.ro")
-  await inputPassword.type("parolaBomba.123")
+  await inputPassword.type("parolaAroganta_954")
 
 }
 main()
