@@ -18,11 +18,15 @@ const main = async (url) => {
   await page.waitForTimeout(1000);
 
   const startPage = await loginToClickFunnels(page, "admin@freedombusinessmentoring.com", "cc6*45y0r%*")
-  
-  // const [clickFunnelsButton] = await startPage.$x(`//*[contains(@class, 'ui dropdown simple link item')]`);
-  // await clickFunnelsButton.click()
+
   await startPage.goto("https://maxtornow-app.clickfunnels.com/funnels")
   await startPage.waitForXPath('//*[@class="ui menu secondary"]');
+
+  const funnelLinksRaw = await page.$$('tr.funnel-content-wrapper.divided td a.ui.link');
+  const properties = await funnelLinksRaw[0].getProperty('href')
+  //properties.toString()
+  const funnelLinksRawZero= funnelLinksRaw[0]
+  const ceva= await funnelLinksRawZero.getProperties()
 
   console.log("Terminai")
 }
