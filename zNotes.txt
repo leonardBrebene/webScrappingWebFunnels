@@ -26,6 +26,8 @@ original
 // anchor.addEventListener("click", (e) => { e.preventDefault();e.stopPropagation() })
 // anchor.click();
 
+//CONTAINS PARTIAL
+// const [clickFunnelsButton] = await startPage.$x(`//*[contains(@class, 'ui dropdown simple link item')]`);
     
 // const fileNameHtml = fileName + html
 // fs.writeFileSync(fileNameHtml, result)
