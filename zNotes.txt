@@ -15,7 +15,7 @@ npm install --save puppeteer
 original
 "--user-data-dir=C:\\Users\\ASUS\\AppData\\Local\\Temp\\puppeteer_dev_chrome_profile-xQA7sb"
 
-
+SLACK curl -X POST -H 'Content-type: application/json' --data '{"text":"Hello, World!"}' https://hooks.slack.com/services/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
 
 // domWindow.document.location.href = "https://www.w3schools.com/howto/howto_js_redirect_webpage.asp";
 // domWindow.document.location.replace("https://www.w3schools.com/howto/howto_js_redirect_webpage.asp")

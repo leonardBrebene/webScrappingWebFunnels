@@ -1,5 +1,6 @@
 import puppeteer, { Page } from "puppeteer";
 import loginToClickFunnels from "./clickFunnelsPupeteer/loginToClickFunnells.js";
+import getAllUrlsFromFunnels from "./functionalitiesForPage/getAllUrlsFromFunnels.js";
 
 
 const main = async (url) => {
@@ -22,11 +23,10 @@ const main = async (url) => {
   await startPage.goto("https://maxtornow-app.clickfunnels.com/funnels")
   await startPage.waitForXPath('//*[@class="ui menu secondary"]');
 
-  const funnelLinksRaw = await page.$$('tr.funnel-content-wrapper.divided td a.ui.link');
-  const properties = await funnelLinksRaw[0].getProperty('href')
-  //properties.toString()
-  const funnelLinksRawZero= funnelLinksRaw[0]
-  const ceva= await funnelLinksRawZero.getProperties()
+  const hrefFunnelsValues = await getAllUrlsFromFunnels(startPage)
+ 
+  
+
 
   console.log("Terminai")
 }
