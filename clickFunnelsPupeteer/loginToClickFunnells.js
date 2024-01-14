@@ -19,7 +19,6 @@ const loginToClickFunnels = async (page, user, password) => {
     // await gotItButton.click()
 
     console.log("Login completed")
-    return page
 }
 export default loginToClickFunnels;
 
