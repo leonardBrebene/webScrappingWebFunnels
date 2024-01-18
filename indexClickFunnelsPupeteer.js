@@ -1,6 +1,8 @@
 import puppeteer, { Page } from "puppeteer";
 import loginToClickFunnels from "./clickFunnelsPupeteer/loginToClickFunnells.js";
 import getAllUrlsFromFunnels from "./functionalitiesForPage/getAllUrlsFromFunnels.js";
+import getAllUrlsFromFunnelsXpath from "./functionalitiesForPage/getAllUrlsFromStepFunnels.js";
+import getAllUrlsFromStepFunnels from "./functionalitiesForPage/getAllUrlsFromStepFunnels.js";
 
 
 const main = async (url) => {
@@ -24,25 +26,14 @@ const main = async (url) => {
   await page.waitForXPath('//*[@class="ui menu secondary"]');
 
   const hrefFunnelsValues = await getAllUrlsFromFunnels(page)
-  
   await page.goto(hrefFunnelsValues[0])
-  await page.waitForXPath('//*[@class="funnelStepsTitleExplainerTitle pull-left" and contains(text(), "Funnel Steps")]');
-
-
-  const [statsButton] = await page.$x(`//div[@class="funnelHeaderActionsItems pull-right clearfix"]//a[2]`);
-
-  if (statsButton) {
-     await statsButton.click()
-  }
-  await page.goBack();
-  await page.waitForTimeout(5000);
   
-  // const stepFunnelsUrlsElements = await page.$$('tr.funnel-content-wrapper.divided td a.ui.link');
-  // const hrefPromises = stepFunnelsUrlsElements.map(element => element.getProperty('href')
-  // );
-  // const hrefs = await Promise.all(hrefPromises);
-  // const hrefStepsFunnelValues = hrefs.map(hrefHandle => hrefHandle.remoteObject().value);
+  await page.waitForXPath('//*[@class="funnelStepsTitleExplainerTitle pull-left" and contains(text(), "Funnel Steps")]');
+  const hrefStepsFunnelValues = await getAllUrlsFromStepFunnels(page)
+  await page.goto(hrefStepsFunnelValues[3])
+  await page.waitForTimeout(3000);
 
+  await page.goBack();
 
   console.log("Terminai")
 }
