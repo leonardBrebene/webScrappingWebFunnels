@@ -1,8 +1,7 @@
 import puppeteer, { Page } from "puppeteer";
-import loginToClickFunnels from "./clickFunnelsPupeteer/loginToClickFunnells.js";
-import getAllUrlsFromFunnels from "./functionalitiesForPage/getAllUrlsFromFunnels.js";
-import getAllUrlsFromFunnelsXpath from "./functionalitiesForPage/getAllUrlsFromStepFunnels.js";
-import getAllUrlsFromStepFunnels from "./functionalitiesForPage/getAllUrlsFromStepFunnels.js";
+import loginToClickFunnels from "./projectElements/clickFunnelsPupeteer/loginToClickFunnells.js";
+import getAllUrlsFromFunnels from "./projectElements/functionalitiesForPage/getAllUrlsFromFunnels.js";
+import getAllUrlsFromStepFunnels from "./projectElements/functionalitiesForPage/getAllUrlsFromStepFunnels.js";
 
 
 const main = async (url) => {
@@ -20,7 +19,7 @@ const main = async (url) => {
   });
   await page.waitForTimeout(1000);
 
-  const startPage = await loginToClickFunnels(page, "admin@freedombusinessmentoring.com", "cc6*45y0r%*")
+ await loginToClickFunnels(page, "admin@freedombusinessmentoring.com", "cc6*45y0r%*")
 
   await page.goto("https://maxtornow-app.clickfunnels.com/funnels")
   await page.waitForXPath('//*[@class="ui menu secondary"]');
