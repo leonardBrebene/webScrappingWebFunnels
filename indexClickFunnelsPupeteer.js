@@ -35,6 +35,7 @@ const main = async (url) => {
   await page.goBack();
 
   console.log("Terminai")
+  console.log("Terminai")
 }
 
 const url = "https://maxtornow-app.clickfunnels.com/users/sign_in"
