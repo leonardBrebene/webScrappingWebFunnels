@@ -7,6 +7,8 @@
     "puppeteer": "^21.7.0",
     "request": "^2.88.2",
     "request-promise": "^4.2.6"
+  },"scripts": {
+    "start": "node indexClickFunnelsPupeteer"
   },
   "devDependencies": {
     "typescript": "^5.3.3"
