@@ -2,30 +2,31 @@ import { CookieJar, JSDOM as jsdom } from "jsdom";
 import fs from "fs";
 import request from 'request-promise';
 
-let isProcessing = false;
-async function fetchData() {
-    // Simulate an asynchronous operation, like fetching data
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve('Mock Data');
-      }, 1000); // Simulating a 1000ms delay
-    });
-  }
-  
-  async function intervalFunction() {
-    if (!isProcessing) {
-      isProcessing = true;
-  
-      try {
-        const data = await fetchData();
-        console.log(`Data: ${data}`);
-      } catch (error) {
-        console.error('Error:', error);
-      } finally {
-        isProcessing = false;
-      }
-    }
-  }
-  
-  setInterval(intervalFunction, 2000);
-  console.log("ceva")
+
+const requestDef = request.defaults({ jar: CookieJar })
+const cockieJar = requestDef.jar
+
+const main = async (parameter) => {
+    console.log(parameter)
+
+    const clickFunnelsLink = "https://app.clickfunnels.com/users/sign_in"
+    const result = await requestDef.get(clickFunnelsLink)
+
+    const html= ".html"
+    const fileName = "./extracted/" + new Date(Date.now() + 2 * 3600 * 1000).toISOString().replace(':', '-').replace(':', '-').slice(0, 19)
+    console.log("fileName: "+ fileName)
+    const fileNameHtml = fileName + html
+    fs.writeFileSync(fileNameHtml, result)
+
+    const dom = new jsdom(result)
+    const document = dom.window.document
+    const fileNameJsonDom = fileName + "jsdom" + html
+    fs.writeFileSync(fileNameJsonDom , document.body.innerHTML)
+    
+    console.log(cockieJar.get)
+
+
+    
+}
+
+main("Function was called");
