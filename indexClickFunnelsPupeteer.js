@@ -2,14 +2,15 @@ import puppeteer, { Page } from "puppeteer";
 import loginToClickFunnels from "./projectElements/clickFunnelsPupeteer/loginToClickFunnells.js";
 import getAllUrlsFromFunnels from "./projectElements/functionalitiesForPage/getAllUrlsFromFunnels.js";
 import getAllUrlsFromStepFunnels from "./projectElements/functionalitiesForPage/getAllUrlsFromStepFunnels.js";
+import getElementFromPathToHaveValue from "./projectElements/functionalitiesForPage/getElementFromPathToHaveValue.js";
 
 
-const main = async (url) => {
+const main = async (url, account, password) => {
   const browser = await puppeteer.launch({
     headless: false,
     defaultViewport: null,
     args: ["--start-maximized"],
-   // executablePath: 'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe',
+    // executablePath: 'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe',
     executablePath: "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
     ignoreDefaultArgs: ["--enable-automation"]
   });
@@ -20,64 +21,29 @@ const main = async (url) => {
   });
   await page.waitForTimeout(1000);
 
- await loginToClickFunnels(page, "admin@freedombusinessmentoring.com", "cc6*45y0r%*")
+  await loginToClickFunnels(page, account, password)
 
   await page.goto("https://maxtornow-app.clickfunnels.com/funnels")
   await page.waitForXPath('//*[@class="ui menu secondary"]');
 
   const hrefFunnelsValues = await getAllUrlsFromFunnels(page)
   for (const url of hrefFunnelsValues) {
-    await openFunnel(url);
+    await openFunnelStepStats(url);
   }
 
-  async function openFunnel(hrefFunnelsValue) {
+  async function openFunnelStepStats(hrefFunnelsValue) {
     console.log("Went stats")
-    await page.waitForTimeout(3000);
+    await page.waitForTimeout(1000);
 
     const statsUrl = hrefFunnelsValue + "/stats"
     await page.goto(statsUrl)
     await page.waitForXPath('//*[@class="bar"]');
-    await page.waitForXPath('//*[@class=" funnelstep divided"]//td[2]');
-    console.log("Elements charged")
-
-   async function ceva () {
-      const [cell] = await page.$x(`//*[@class=" funnelstep divided"]//td[2]`);
-      const value = await cell.evaluate(el => el.textContent)
-
-      console.log("value of value is:" + value +"'")
-      if(value.includes("\n") || isNaN(value)){
-        console.log("value from setInterval: " + value )
-        await new Promise(resolve => setTimeout(resolve, 1000))
-      }
-      else{
-        return "5"
-      }
-    };
-   for (let index = 0; index < 5; index++) {
-    console.log("index:"+index)
-    const plm=await ceva()
-    if(plm=="5"){
-      console.log("Am intrat pe break")
-        break
-    }
-   }
-
-    const [cell] = await page.$x(`//*[@class=" funnelstep divided"]//td[2]`);
-    const value = await cell.evaluate(el => el.textContent)
-    console.log("value: " + value )
-
-    await page.waitForTimeout(3000);
-    console.log("Out of stats")
+    const firstCellFromtable = await getElementFromPathToHaveValue(page, '//*[@class=" funnelstep divided"]//td[2]', 7, null)
+    console.log("firstCellFromtable"+firstCellFromtable)
   }
 
-  const hrefStepsFunnelValues = await getAllUrlsFromStepFunnels(page)
-  await page.goto(hrefStepsFunnelValues[3])
-  await page.waitForTimeout(3000);
+    console.log("Terminai")
+  }
 
-  await page.goBack();
-
-  console.log("Terminai")
-}
-
-const url = "https://maxtornow-app.clickfunnels.com/users/sign_in"
-main(url)
+  const url = "https://maxtornow-app.clickfunnels.com/users/sign_in"
+  main(url,"admin@freedombusinessmentoring.com", "cc6*45y0r%*")
