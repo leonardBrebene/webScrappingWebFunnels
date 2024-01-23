@@ -5,6 +5,7 @@ npm install --save cheerio
 npm install --save puppeteer
 
 add to scripts in package.json     "start": "node indexClickFunnelsPupeteer"
+when creating a new cookie.json file insert: {} inside
 
   const browser = await puppeteer.launch({
     headless: false,

@@ -1,3 +1,4 @@
+import fs from "fs"
 
 const loginToClickFunnels = async (page, user, password) => {
 
@@ -16,7 +17,11 @@ const loginToClickFunnels = async (page, user, password) => {
     if (gotItButton) {
         await gotItButton.click()
     }
-    console.log("Login completed")
+
+  await page.waitForTimeout(10000)
+  const cookies = await page.cookies();
+  await fs.promises.writeFile('./jsonFiles/cookies.json', JSON.stringify(cookies, null, 2));
+  console.log("Login completed and saving cookies ")
 }
 export default loginToClickFunnels;
 

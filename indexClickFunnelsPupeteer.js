@@ -17,27 +17,24 @@ const main = async (url, account, password) => {
   });
   const page = await browser.newPage();
 
-  // await page.goto(url, {
-  //   waitUntil: "networkidle2",
-  // });
-  // await page.waitForTimeout(1000);//to be removed
-
-  await page.goto("https://www.google.com", {
-    waitUntil: "networkidle2",
-  });
-
-  // await loginToClickFunnels(page, account, password)
-
-
-  // await page.waitForTimeout(10000)
-  // const cookies = await page.cookies();
-  // await fs.promises.writeFile('./cookies.json', JSON.stringify(cookies, null, 2));
-
-
   const cookiesString = await fs.promises.readFile('./jsonFiles/cookies.json')
   const cookies = JSON.parse(cookiesString)
-  await page.setCookie(...cookies)
-  await page.waitForTimeout(3000) //for any reason
+
+  if (cookiesString.length < 100) {
+    await page.goto(url, {
+      waitUntil: "networkidle2",
+    });
+    await page.waitForTimeout(1000);//to be removed
+    await loginToClickFunnels(page, account, password)
+  }
+  else {
+    await page.goto("https://www.google.com", {
+      waitUntil: "networkidle2",
+    });
+    await page.setCookie(...cookies)
+    await page.waitForTimeout(1000) //for any reason
+
+  }
 
   await page.goto("https://maxtornow-app.clickfunnels.com/funnels")
   await page.waitForXPath('//*[@class="ui menu secondary"]');
