@@ -6,7 +6,7 @@ const SHEET_NAME = 'TestApi'; // Replace with the name of your sheet
 
 const addRowToGoogleSheets = async (values1) => {
   const auth = new google.auth.GoogleAuth({
-    keyFile: 'credentials.json', // Replace with the path to your credentials JSON file
+    keyFile: 'projectElements/googleSheetsOperations/credentials.json', // Replace with the path to your credentials JSON file
     scopes: 'https://www.googleapis.com/auth/spreadsheets',
   });
 

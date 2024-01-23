@@ -17,10 +17,14 @@ const main = async (url, account, password) => {
   });
   const page = await browser.newPage();
 
-  await page.goto(url, {
+  // await page.goto(url, {
+  //   waitUntil: "networkidle2",
+  // });
+  // await page.waitForTimeout(1000);//to be removed
+
+  await page.goto("https://www.google.com", {
     waitUntil: "networkidle2",
   });
-  await page.waitForTimeout(1000);//to be removed
 
   // await loginToClickFunnels(page, account, password)
 
@@ -30,7 +34,7 @@ const main = async (url, account, password) => {
   // await fs.promises.writeFile('./cookies.json', JSON.stringify(cookies, null, 2));
 
 
-  const cookiesString = await fs.promises.readFile('./cookies.json')
+  const cookiesString = await fs.promises.readFile('./jsonFiles/cookies.json')
   const cookies = JSON.parse(cookiesString)
   await page.setCookie(...cookies)
   await page.waitForTimeout(3000) //for any reason
@@ -45,10 +49,10 @@ const main = async (url, account, password) => {
 
   async function openFunnelStepStats(hrefFunnelsValue) {
     console.log("Went stats")
-    await page.waitForTimeout(1000); //tobe removed
-
     const statsUrl = hrefFunnelsValue + "/stats"
-    await page.goto(statsUrl)
+    await page.goto(statsUrl, { waitUntil: 'domcontentloaded' });
+    //await page.waitForTimeout(1000); //probably dynamic wait to trick that this is not a robot
+
     await page.waitForXPath('//*[@class="bar"]');
     const firstCellFromtable = await getElementFromPathToHaveValue(page, '//*[@class=" funnelstep divided"]//td[2]', 7, null)
     console.log("firstCellFromtable"+firstCellFromtable)

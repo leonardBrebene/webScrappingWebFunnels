@@ -7,7 +7,7 @@ const getElementFromPathToHaveValue = async (page, path, timeInSeconds, value) =
         const [elem] = await page.$x(path);
         const value = await elem.evaluate(el => el.textContent)
 
-        if (value.includes("\n") || value.length === 0 || value === "'") {
+        if (value.includes("\n") || value.length === 0 || value === "'" || value === undefined) {
             await new Promise(resolve => setTimeout(resolve, 500))
         }
         else {
