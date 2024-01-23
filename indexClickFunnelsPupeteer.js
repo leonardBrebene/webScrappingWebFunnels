@@ -1,4 +1,5 @@
 import puppeteer, { Page } from "puppeteer";
+import fs from "fs"
 import loginToClickFunnels from "./projectElements/clickFunnelsPupeteer/loginToClickFunnells.js";
 import getAllUrlsFromFunnels from "./projectElements/functionalitiesForPage/getAllUrlsFromFunnels.js";
 import getAllUrlsFromStepFunnels from "./projectElements/functionalitiesForPage/getAllUrlsFromStepFunnels.js";
@@ -7,7 +8,7 @@ import getElementFromPathToHaveValue from "./projectElements/functionalitiesForP
 
 const main = async (url, account, password) => {
   const browser = await puppeteer.launch({
-    headless: false,
+    headless: false, //to see what the application does
     defaultViewport: null,
     args: ["--start-maximized"],
     // executablePath: 'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe',
@@ -19,9 +20,20 @@ const main = async (url, account, password) => {
   await page.goto(url, {
     waitUntil: "networkidle2",
   });
-  await page.waitForTimeout(1000);
+  await page.waitForTimeout(1000);//to be removed
 
-  await loginToClickFunnels(page, account, password)
+  // await loginToClickFunnels(page, account, password)
+
+
+  // await page.waitForTimeout(10000)
+  // const cookies = await page.cookies();
+  // await fs.promises.writeFile('./cookies.json', JSON.stringify(cookies, null, 2));
+
+
+  const cookiesString = await fs.promises.readFile('./cookies.json')
+  const cookies = JSON.parse(cookiesString)
+  await page.setCookie(...cookies)
+  await page.waitForTimeout(3000) //for any reason
 
   await page.goto("https://maxtornow-app.clickfunnels.com/funnels")
   await page.waitForXPath('//*[@class="ui menu secondary"]');
@@ -33,7 +45,7 @@ const main = async (url, account, password) => {
 
   async function openFunnelStepStats(hrefFunnelsValue) {
     console.log("Went stats")
-    await page.waitForTimeout(1000);
+    await page.waitForTimeout(1000); //tobe removed
 
     const statsUrl = hrefFunnelsValue + "/stats"
     await page.goto(statsUrl)

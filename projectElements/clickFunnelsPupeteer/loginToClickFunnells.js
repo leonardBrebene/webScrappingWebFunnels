@@ -14,10 +14,8 @@ const loginToClickFunnels = async (page, user, password) => {
     const [gotItButton] = await page.$x(`//*[@id="toast--action-agreement"]`);
 
     if (gotItButton) {
-       await gotItButton.click()
+        await gotItButton.click()
     }
-    // await gotItButton.click()
-
     console.log("Login completed")
 }
 export default loginToClickFunnels;
