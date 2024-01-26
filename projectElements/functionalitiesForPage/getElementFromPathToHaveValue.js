@@ -2,16 +2,21 @@
 
 const getElementFromPathToHaveValue = async (page, path, timeInSeconds, value) => {
 
+    function containsLetterAndNumber(inputString) {
+        const result = /[a-zA-Z]/.test(inputString) || /\d/.test(inputString);
+        return result
+    }
+
     async function getValueFromElement() {
         await page.waitForXPath(path);
         const [elem] = await page.$x(path);
-        const value = await elem.evaluate(el => el.textContent)
+        const valueRaw = await elem.evaluate(el => el.textContent)
+        const value = valueRaw.replace(/\n/g, '')
 
-        if (value.includes("\n") || value.length === 0 || value === "'" || value === undefined) {
+        if (containsLetterAndNumber(value) === false) {
             await new Promise(resolve => setTimeout(resolve, 500))
         }
         else {
-            console.log("The value of requested element is: " + value)
             return value
         }
     };
@@ -19,10 +24,10 @@ const getElementFromPathToHaveValue = async (page, path, timeInSeconds, value) =
     for (let index = 0; index < timeInSeconds * 2; index++) {
         const requstedValue = await getValueFromElement()
 
-        if (value===null && requstedValue !== null && requstedValue !== undefined) {
+        if (value === null && requstedValue !== null && requstedValue !== undefined) {
             return requstedValue
         }
-        else if(value!==null && requstedValue === value && requstedValue !== undefined){
+        else if (value !== null && requstedValue === value && requstedValue !== undefined) {
             return requstedValue
         }
     }

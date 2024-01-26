@@ -4,6 +4,7 @@ import loginToClickFunnels from "./projectElements/clickFunnelsPupeteer/loginToC
 import getAllUrlsFromFunnels from "./projectElements/functionalitiesForPage/getAllUrlsFromFunnels.js";
 import getAllUrlsFromStepFunnels from "./projectElements/functionalitiesForPage/getAllUrlsFromStepFunnels.js";
 import getElementFromPathToHaveValue from "./projectElements/functionalitiesForPage/getElementFromPathToHaveValue.js";
+import getStepElementsViewsFromStats from "./projectElements/functionalitiesForPage/getStepElementsViewsFromStats.js";
 
 
 const main = async (url, account, password) => {
@@ -51,12 +52,11 @@ const main = async (url, account, password) => {
     //await page.waitForTimeout(1000); //probably dynamic wait to trick that this is not a robot
 
     await page.waitForXPath('//*[@class="bar"]');
-    const firstCellFromtable = await getElementFromPathToHaveValue(page, '//*[@class=" funnelstep divided"]//td[2]', 7, null)
-    console.log("firstCellFromtable"+firstCellFromtable)
+    const stepFunnelViews = await getStepElementsViewsFromStats(page)
   }
 
-    console.log("Terminai")
-  }
+  console.log("Terminai")
+}
 
-  const url = "https://maxtornow-app.clickfunnels.com/users/sign_in"
-  main(url,"admin@freedombusinessmentoring.com", "cc6*45y0r%*")
+const url = "https://maxtornow-app.clickfunnels.com/users/sign_in"
+main(url, "admin@freedombusinessmentoring.com", "cc6*45y0r%*")
