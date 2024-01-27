@@ -1,7 +1,8 @@
+import { format } from 'date-fns';
 
-const getFormatedDate =  () => {
+const getFormatedDate = () => {
 
-    const fileName = new Date(Date.now() + 2 * 3600 * 1000).toISOString().replace(':', '-').replace(':', '-').slice(0, 19)
-    return fileName.toString()
+    return format(new Date(), 'dd-MM-yyyy')
+
 }
 export default getFormatedDate;

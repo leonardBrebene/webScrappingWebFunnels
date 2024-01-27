@@ -2,13 +2,14 @@
   "type": "module",
   "dependencies": {
     "cheerio": "^1.0.0-rc.12",
+    "date-fns": "^3.3.1",
     "googleapis": "^112.0.0",
     "jsdom": "^22.1.0",
     "puppeteer": "^21.7.0",
     "request": "^2.88.2",
     "request-promise": "^4.2.6"
-  },"scripts": {
   },
+  "scripts": {},
   "devDependencies": {
     "typescript": "^5.3.3"
   }
