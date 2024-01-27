@@ -1,5 +1,3 @@
-import { CookieJar, JSDOM as jsdom } from "jsdom";
-import request from 'request-promise';
 
 const getPathWithDate =  () => {
 

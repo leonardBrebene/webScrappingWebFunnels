@@ -3,7 +3,7 @@
 const getElementFromPathToHaveValue = async (page, path, timeInSeconds, value) => {
 
     function containsLetterAndNumber(inputString) {
-        const result = /[a-zA-Z]/.test(inputString) || /\d/.test(inputString);
+        const result = /[a-zA-Z]/.test(inputString) || /\d/.test(inputString);  //result must contain a letter or a digit
         return result
     }
 

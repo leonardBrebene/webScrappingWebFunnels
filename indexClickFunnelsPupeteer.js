@@ -5,9 +5,10 @@ import getAllUrlsFromFunnels from "./projectElements/functionalitiesForPage/getA
 import getAllUrlsFromStepFunnels from "./projectElements/functionalitiesForPage/getAllUrlsFromStepFunnels.js";
 import getElementFromPathToHaveValue from "./projectElements/functionalitiesForPage/getElementFromPathToHaveValue.js";
 import getStepElementsViewsFromStats from "./projectElements/functionalitiesForPage/getStepElementsViewsFromStats.js";
+import addRowToGoogleSheets from "./projectElements/googleSheetsOperations/addRowsToGoogleSheets.js";
 
 
-const main = async (url, account, password) => {
+const main = async (url, filteringUrl, account, password) => {
   const browser = await puppeteer.launch({
     headless: false, //to see what the application does
     defaultViewport: null,
@@ -47,16 +48,23 @@ const main = async (url, account, password) => {
 
   async function openFunnelStepStats(hrefFunnelsValue) {
     console.log("Went stats")
-    const statsUrl = hrefFunnelsValue + "/stats"
-    await page.goto(statsUrl, { waitUntil: 'domcontentloaded' });
-    //await page.waitForTimeout(1000); //probably dynamic wait to trick that this is not a robot
+    const statsUrl = hrefFunnelsValue + "/stats" + filteringUrl
+    //create condition when page does not load
+    const stepFunnelViews = await getStepElementsViewsFromStats(page, statsUrl)
+    await addRowToGoogleSheets(stepFunnelViews)
 
-    await page.waitForXPath('//*[@class="bar"]');
-    const stepFunnelViews = await getStepElementsViewsFromStats(page)
   }
 
-  console.log("Terminai")
+  console.log("Terminai pagina 1")
 }
 
+const day = "26"
+const month = "January"
+const year = "2024"
 const url = "https://maxtornow-app.clickfunnels.com/users/sign_in"
-main(url, "admin@freedombusinessmentoring.com", "cc6*45y0r%*")
+const filteringUrl = "?utf8=%E2%9C%93&filter%5Bcampaign_content%5D=&filter%5Bcampaign_medium%5D=&filter%5Bcampaign_name%5D=&filter%5B"+
+"campaign_source%5D=&filter%5Bcampaign_term%5D=&filter%5Baffiliate_subscription_affiliate_id%5D=&filter%5B"+
+"affiliate_subscription_aff_sub%5D=&filter%5Baffiliate_subscription_aff_sub2%5D=&filter%5Baffiliate_subscription_aff_sub3%5D=&filter%5B"+
+`date_start%5D=${month}+${day}%2C+${year}&filter%5Bdate_end%5D=${month}+${day}%2C+${year}&filter%5Bdevice_category_id%5D=&filter%5Btotal_cost%5D=&commit=Apply+Filter`
+
+main(url, filteringUrl, "admin@freedombusinessmentoring.com", "cc6*45y0r%*")
