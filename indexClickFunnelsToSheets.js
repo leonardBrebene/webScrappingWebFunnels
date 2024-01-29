@@ -8,7 +8,7 @@ import getStepElementsViewsFromStats from "./projectElements/functionalitiesForP
 import addRowToGoogleSheets from "./projectElements/googleSheetsOperations/addRowsToGoogleSheets.js";
 
 
-const main = async (url, filteringUrl, account, password) => {
+const indexClickFunnelsToSheets = async (url, filteringUrl, account, password) => {
   const browser = await puppeteer.launch({
     headless: false, //to see what the application does
     defaultViewport: null,
@@ -44,6 +44,7 @@ const main = async (url, filteringUrl, account, password) => {
   const hrefFunnelsValues = await getAllUrlsFromFunnels(page)
   for (const url of hrefFunnelsValues) {
     await openFunnelStepStats(url);
+    break
   }
 
   async function openFunnelStepStats(hrefFunnelsValue) {
@@ -52,7 +53,7 @@ const main = async (url, filteringUrl, account, password) => {
     //create condition when page does not load
     const stepFunnelViews = await getStepElementsViewsFromStats(page, statsUrl)
     await addRowToGoogleSheets(stepFunnelViews)
-
+  
   }
 
   console.log("Terminai pagina 1")
@@ -67,4 +68,4 @@ const filteringUrl = "?utf8=%E2%9C%93&filter%5Bcampaign_content%5D=&filter%5Bcam
 "affiliate_subscription_aff_sub%5D=&filter%5Baffiliate_subscription_aff_sub2%5D=&filter%5Baffiliate_subscription_aff_sub3%5D=&filter%5B"+
 `date_start%5D=${month}+${day}%2C+${year}&filter%5Bdate_end%5D=${month}+${day}%2C+${year}&filter%5Bdevice_category_id%5D=&filter%5Btotal_cost%5D=&commit=Apply+Filter`
 
-main(url, filteringUrl, "admin@freedombusinessmentoring.com", "cc6*45y0r%*")
+indexClickFunnelsToSheets(url, filteringUrl, "admin@freedombusinessmentoring.com", "cc6*45y0r%*")
