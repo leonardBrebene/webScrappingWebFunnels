@@ -22,6 +22,15 @@ const addRowToGoogleSheets = async (stepFunnelViews) => {
     },
   });
 
+  // const response = await sheets.spreadsheets.values.get({
+  //   spreadsheetId,
+  //   range: `${sheetName}!A:ZZ`, // Adjust the range as needed
+  // });
+
+  // const values = response.data.values;
+  // const headers = values[0];
+
+
   console.log('Row added successfully:', sheetsClient.data);
 }
 
