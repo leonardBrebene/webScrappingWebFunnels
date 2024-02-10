@@ -62,7 +62,7 @@ const indexClickFunnelsToSheets = async (url, filteringUrl, date, numberOfFunnel
   console.log("Terminai pagina 1")
 }
 
-for (let index = 2; index < 10; index++) {
+for (let index = 3; index < 10; index++) {
 const startDay = "1"
 const day = index
 const month = "February"

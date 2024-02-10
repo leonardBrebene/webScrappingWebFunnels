@@ -52,4 +52,4 @@ const indexSheetsHistoryToSheets = async () => {
 
 }
 export default indexSheetsHistoryToSheets;
-indexSheetsHistoryToSheets()
+
