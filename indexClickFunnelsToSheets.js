@@ -4,6 +4,7 @@ import loginToClickFunnels from "./projectElements/clickFunnelsPupeteer/loginToC
 import getAllUrlsFromFunnels from "./projectElements/functionalitiesForPage/getAllUrlsFromFunnels.js";
 import getStepElementsViewsFromStats from "./projectElements/functionalitiesForPage/getStepElementsViewsFromStats.js";
 import addRowToGoogleSheets from "./projectElements/googleSheetsOperations/addRowsToGoogleSheets.js";
+import indexSheetsHistoryToSheets from "./indexSheetshistoryToSheets.js";
 
 
 const indexClickFunnelsToSheets = async (url, filteringUrl, date, numberOfFunnelPages, account, password) => {
@@ -61,8 +62,10 @@ const indexClickFunnelsToSheets = async (url, filteringUrl, date, numberOfFunnel
   console.log("Terminai pagina 1")
 }
 
-const day = "27"
-const month = "January"
+for (let index = 2; index < 10; index++) {
+const startDay = "1"
+const day = index
+const month = "February"
 const year = "2024"
 const date = `${day} ${month} ${year}`
 const numberOfFunnelPages = 3
@@ -72,4 +75,6 @@ const filteringUrl = "?utf8=%E2%9C%93&filter%5Bcampaign_content%5D=&filter%5Bcam
   "affiliate_subscription_aff_sub%5D=&filter%5Baffiliate_subscription_aff_sub2%5D=&filter%5Baffiliate_subscription_aff_sub3%5D=&filter%5B" +
   `date_start%5D=${month}+${day}%2C+${year}&filter%5Bdate_end%5D=${month}+${day}%2C+${year}&filter%5Bdevice_category_id%5D=&filter%5Btotal_cost%5D=&commit=Apply+Filter`
 
-indexClickFunnelsToSheets(url, filteringUrl, date, numberOfFunnelPages, "admin@freedombusinessmentoring.com", "cc6*45y0r%*")
+await indexClickFunnelsToSheets(url, filteringUrl, date, numberOfFunnelPages, "admin@freedombusinessmentoring.com", "cc6*45y0r%*")
+await indexSheetsHistoryToSheets()
+}

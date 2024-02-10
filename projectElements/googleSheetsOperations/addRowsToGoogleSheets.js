@@ -20,7 +20,7 @@ const addRowToGoogleSheets = async (stepFunnelViews) => {
     range: `${SHEET_NAME}!A:AF`, // Choose the range where the new row will be added
     valueInputOption: 'RAW',
     resource: {
-      values: [[tableData.length, ...stepFunnelViews]], // An array of values for each column in the new row
+      values: [[tableData.length + 1, ...stepFunnelViews]], // An array of values for each column in the new row
     },
   });
     

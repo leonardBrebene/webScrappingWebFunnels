@@ -8,7 +8,7 @@ const getFunnelEntriesForToday = (funnelStepsFromCurentSheet, funnelStepFromToda
 
     const funnelStepIndex = funnelStepFromToday.indexOf(funnelStep)
 
-    if (funnelStepIndex !== -1) {  //row is present in todays entries
+    if (funnelStepIndex !== -1 && funnelStepIndex !== 1) {  //row is present in todays entries
       const viewsFromADay = funnelStepEntriesFromToday[funnelStepIndex]
       funnelResult.push(viewsFromADay.match(numberBetweenPipelinesAndComma).toString())
     }

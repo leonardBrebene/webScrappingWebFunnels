@@ -127,3 +127,56 @@ function sendDataToRequiredSheets() {
     }
     Logger.log(lastRow[0][0]);
 }
+
+function copyDataWithoutValue() {
+    var sourceSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("test1");
+    var targetSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("test2");
+  
+    if (sourceSheet && targetSheet) {
+      var sourceData = sourceSheet.getDataRange().getValues();
+      var filteredData = [];
+  
+      for (var i = 0; i < sourceData.length; i++) {
+        var row = [];
+        for (var j = 0; j < sourceData[i].length; j++) {
+          const ceva =sourceData[i][j];
+          if (sourceData[i][j].toString().includes("VALUE")||sourceData[i][j].toString().includes("|| 0") ) {
+            sourceData[i][j]="";
+          }
+        }
+       
+      }
+  
+      targetSheet.getRange("A1:Z65").setValues(sourceData);
+      Logger.log("Data copied successfully!");
+    } else {
+      Logger.log("Sheets not found!");
+    }
+  }
+
+  
+  function copyDataWithoutValue2() {
+    var sourceSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("test2");
+    var targetSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("test3");
+  
+    if (sourceSheet && targetSheet) {
+      var sourceData = sourceSheet.getDataRange().getValues();
+      var filteredData = [];
+  
+      for (var i = 0; i < sourceData.length; i++) {
+        var row = [];
+        for (var j = 0; j < sourceData[i].length; j++) {
+         
+            sourceData[i][j]=sourceData[i][j].replace(/\s*\|\|\s*\d+$/, '');
+          
+        }
+       
+      }
+  
+      targetSheet.getRange("A1:X65").setValues(sourceData);
+      Logger.log("Data copied successfully!");
+    } else {
+      Logger.log("Sheets not found!");
+    }
+  }
+  
