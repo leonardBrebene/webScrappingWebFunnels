@@ -11,7 +11,6 @@ const appendRowToGoogleSheets = async (sheetName, data) => {
   });
 
   const authClient = await auth.getClient();
-  const tableData = await getRowsFromGoogleSheets(sheetName, "A:A")
 
   const sheetsClient = await sheets.spreadsheets.values.append({
     auth: authClient,

@@ -11,7 +11,7 @@ const getStepElementsViewsFromStats = async (page, statsUrl) => {
     await page.waitForXPath('//*[@class="bar"]');
 
     const title = await getElementFromPathToHaveValue(page, `//div//h3[@class="truncated white text"]`, 5, null)
-    funnelStepsAndViews.push( getFormatedDate(), title)
+    funnelStepsAndViews.push( title)
 
     async function getValuesFromRow(page, rowNumber, tableNumber) {
         const titleValue = await getElementFromPathToHaveValue(page, `//table[${tableNumber}]//*[@class=" funnelstep divided"][${rowNumber}]//td[1]//div`, 5, null)

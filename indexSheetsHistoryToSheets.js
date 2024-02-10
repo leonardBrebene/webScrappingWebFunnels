@@ -10,8 +10,19 @@ import getFunnelEntriesForToday from "./projectElements/instrumentsForPage/getFu
 
 const indexSheetsHistoryToSheets = async () => {
 
+  const tableData = await getRowsFromGoogleSheets("HistoricalData", "A:B")
+  const lastEntryDate = tableData[tableData.length - 1][1]
+  const lastEntryIndex = tableData[tableData.length - 1][0]
+  var firstEntryIndex = 0
 
-  const sheet = await getRowsFromGoogleSheets("HistoricalData", "A:AF")
+  for (let index = lastEntryIndex; index >= 1; index--) {
+    if (lastEntryDate !== tableData[index - 1][1]) {
+      firstEntryIndex = index +1
+      break
+    }
+  }
+
+  const sheet = await getRowsFromGoogleSheets("HistoricalData", `A${firstEntryIndex.toString()}:AF${lastEntryIndex}`)
   const todaysEntries = getTodaysRowsEntries(sheet)
 
   const funnelNamesAndStepsFromTodaysEntries = todaysEntries.map((funnelStepEntries) => {
@@ -26,7 +37,7 @@ const indexSheetsHistoryToSheets = async () => {
   for (const sheet of allSheetsFromSpreadSheet) {
 
     const funnelIndex = getIndexOfFunnel(funnelNamesAndStepsFromTodaysEntries, sheet)
-   
+
     if (funnelIndex !== -1) {  //if the sheet is present
 
       const funnelStepsFromCurentSheetRaw = await getRowsFromGoogleSheets(sheet, "B1:Z1")
