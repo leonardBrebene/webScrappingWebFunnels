@@ -1,13 +1,11 @@
-import puppeteer, { Page } from "puppeteer";
-import fs from "fs"
-import loginToClickFunnels from "./projectElements/clickFunnelsPupeteer/loginToClickFunnells.js";
-import getAllUrlsFromFunnels from "./projectElements/functionalitiesForPage/getAllUrlsFromFunnels.js";
-import getAllUrlsFromStepFunnels from "./projectElements/functionalitiesForPage/getAllUrlsFromStepFunnels.js";
-import getElementFromPathToHaveValue from "./projectElements/functionalitiesForPage/getElementFromPathToHaveValue.js";
-import getStepElementsViewsFromStats from "./projectElements/functionalitiesForPage/getStepElementsViewsFromStats.js";
-import addRowToGoogleSheets from "./projectElements/googleSheetsOperations/addRowsToGoogleSheets.js";
+
 import getRowsFromGoogleSheets from "./projectElements/googleSheetsOperations/getRowsFromGoogleSheets.js";
 import getTodaysRowsEntries from "./projectElements/googleSheetsInstruments/getTodaysRowsEntries.js";
+import addDataToSheet from "./projectElements/googleSheetsOperations/addDataToSheet.js";
+import getSheetsNamesGoogleSheets from "./projectElements/googleSheetsOperations/getSheetsNamesGoogleSheets.js";
+import getIndexOfFunnel from "./projectElements/instrumentsForPage/getIndexOfFunnel.js";
+import appendRowToGoogleSheets from "./projectElements/googleSheetsOperations/appendRowsToGoogleSheets.js";
+import getFunnelEntriesForToday from "./projectElements/instrumentsForPage/getFunnelEntriesForToday.js";
 
 
 const indexSheetsHistoryToSheets = async () => {
@@ -16,39 +14,31 @@ const indexSheetsHistoryToSheets = async () => {
   const sheet = await getRowsFromGoogleSheets("HistoricalData", "A:AF")
   const todaysEntries = getTodaysRowsEntries(sheet)
 
-  var funnelNamesFromTodaysEntries = todaysEntries.map( (value) => {
-    return value[2]
+  const funnelNamesAndStepsFromTodaysEntries = todaysEntries.map((funnelStepEntries) => {
+    funnelStepEntries.shift();
+    const funnelNamesAndSteps = funnelStepEntries.map(str => str.split(" || ")[0]);
+    return funnelNamesAndSteps
   });
-  
-//   createSheetsIfNeeded(funnelNamesFromTodaysEntries)
 
-//   var todaysEntries = sheet.getRange("A" + firstRowIndex + ":" + "AE" + lastRowIndex).getValues();
-//   //createFunnelStepColumnsIfNeeded(funnelNamesFromTodaysEntries, todaysEntries)
+  await addDataToSheet(funnelNamesAndStepsFromTodaysEntries, "LatestFunnelsAndSteps", "A2")
+  const allSheetsFromSpreadSheet = await getSheetsNamesGoogleSheets()
 
-//   for (var i = 0; i < todaysEntries.length; i++) {
-//     var actualSheet2 = spreadsheet.getSheetByName(todaysEntries[i][1])
-//     var todaysEntriesFormatted = todaysEntries[i].filter(function (value) {
-//       return value !== null && value !== undefined && value !== '';
-//     });
+  for (const sheet of allSheetsFromSpreadSheet) {
 
-//     var actualSheetFunnelSteps = getFunnelStepsFromSheet(todaysEntriesFormatted[1])
-//     var lastRowIndex = actualSheet2.getLastRow()
+    const funnelIndex = getIndexOfFunnel(funnelNamesAndStepsFromTodaysEntries, sheet)
+   
+    if (funnelIndex !== -1) {  //if the sheet is present
 
-//     for (var j = 2; j < todaysEntriesFormatted.length; j++) {
-//       var stepName = todaysEntriesFormatted[j].split(' ||')[0].trim()
-//       var columnIndex = actualSheetFunnelSteps.indexOf(stepName)
-//       var allPageViews = todaysEntriesFormatted[j].split(' ||')[1].trim().split(',')[0].trim()
+      const funnelStepsFromCurentSheetRaw = await getRowsFromGoogleSheets(sheet, "B1:Z1")
+      const funnelStepsFromCurentSheet = funnelStepsFromCurentSheetRaw[0]
+      const funnelStepFromToday = funnelNamesAndStepsFromTodaysEntries[funnelIndex]
+      const funnelStepEntriesFromToday = todaysEntries[funnelIndex]
 
-//       actualSheet2.getRange(lastRowIndex + 1, columnIndex + 2, 1, 1).setValues([[allPageViews]]);
+      const funnelResult = getFunnelEntriesForToday(funnelStepsFromCurentSheet, funnelStepFromToday, funnelStepEntriesFromToday)
+      appendRowToGoogleSheets(sheet, funnelResult)
+    }
+  };
 
-//       Logger.log("todaysEntriesFormatted[j]: " + todaysEntriesFormatted[j]);
-//       Logger.log("stepName: " + stepName);
-//       Logger.log("index: " + columnIndex);
+}
 
-//     }
-
-//     console.log("Terminai trimiterea")
-//   }
- }
-
- indexSheetsHistoryToSheets()
+indexSheetsHistoryToSheets()
